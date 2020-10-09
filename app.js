@@ -14,7 +14,7 @@ app.get("/hello", (request, response) => {
     response.json({ message: 'Hello Rocklola' })
 });
 //
-app.post("order_created_hook", async (req, res, next) => {
+app.post("/order_created_hook", async (req, res, next) => {
     try {
         nuvemshop.config({
           store_id: process.env.STORE_ID,
