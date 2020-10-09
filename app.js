@@ -78,9 +78,7 @@ app.post("/order_created_hook", async (req, res, next) => {
       }
     });
     //
-    console.log(authentication.data)
-    console.log(authentication.data.access_token)
-    console.log(created_lead)
+    console.log(created_lead);
     //
     created_lead.forEach(async (item) => {
         console.log(item)
