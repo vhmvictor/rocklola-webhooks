@@ -13,3 +13,7 @@ app.use(cors());
 app.get("/hello", (request, response) => {
     response.json({ message: 'Hello Rocklola' })
 })
+
+app.listen(process.env.PORT || 3000, () => {
+    console.log("Servidor iniciado!");
+});
