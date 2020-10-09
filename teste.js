@@ -1,4 +1,5 @@
 const axios = require("axios");
+const nuvemshop = require("nuvemshop");
 const dotenv = require('dotenv')
 
 dotenv.config()
@@ -10,7 +11,8 @@ const app = async () => {
         access_token: process.env.ACCESS_TOKEN,
         user_agent: process.env.USER_AGENT
       });
-      const orders = await nuvemshop.listOrders();
+      const orders = await nuvemshop.getOrder(304430247);
+      console.log(orders)
       let pending_orders = [];
       let paid_orders = [];
       let cont = 0;
@@ -18,7 +20,7 @@ const app = async () => {
       orders.forEach((obj) => {
         if(obj.status == "open" && obj.payment_status == "pending" && obj.created_at > "2020-10-08") {
           cont ++
-          console.log(obj)
+          //console.log(obj)
           /*
           pending_orders.push({
             "event_type": "CONVERSION",
