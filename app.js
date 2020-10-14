@@ -141,7 +141,7 @@ app.post("/order_paid_hook", async (req, res, next) => {
         "payload": {
           "email": obj.customer.email,
           "funnel_name": "default",
-          "value": obj.total
+          "value": parseFloat(obj.total)
         }
       });
     });
