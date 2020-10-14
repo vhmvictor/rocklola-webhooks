@@ -115,7 +115,7 @@ app.post("/order_paid_hook", async (req, res, next) => {
           "personal_phone": "",
           "mobile_phone": obj.customer.phone,
           "cf_price": obj.total,
-          "cf_order_payment_method": obj.payment_details.method,
+          "cf_order_payment_method": "",
           "cf_status": "aprovado",
           "cf_order_id": JSON.stringify(obj.id),
           "twitter": "",
@@ -135,6 +135,8 @@ app.post("/order_paid_hook", async (req, res, next) => {
           "available_for_mailing": true,
         }
       });
+      if(obj.payment_details.method == "credit_card") created_lead[0].payload.cf_order_payment_method = "Cartão de Crédito"
+      else if(obj.payment_details.method == "offline") created_lead[0].payload.cf_order_payment_method = "Boleto"
       lead_paid_order.push({
         "event_type": "SALE",
         "event_family":"CDP",
