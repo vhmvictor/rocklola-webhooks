@@ -24,7 +24,6 @@ app.post("/order_created_hook", async (req, res, next) => {
     let order = [];
     order.push(await nuvemshop.getOrder(req.body.id));
     let created_lead = [];
-    let lead_pending_order = [];
     order.forEach((obj) => {
       created_lead.push({
         "event_type": "CONVERSION",
@@ -60,19 +59,6 @@ app.post("/order_created_hook", async (req, res, next) => {
           "available_for_mailing": true,
         }
       });
-      lead_pending_order.push({
-        "event_type": "ORDER_PLACED",
-        "event_family":"CDP",
-        "payload": {
-          "name": obj.customer.name,
-          "email": obj.customer.email,
-          "cf_order_id": JSON.stringify(obj.id),
-          "cf_order_total_items": parseInt(obj.products.length),
-          "cf_order_status": "pendente",
-          "cf_order_payment_method": "Others",
-          "cf_order_payment_amount": parseFloat(obj.total),
-        }
-      });
     });
     //
     console.log(created_lead);
@@ -87,18 +73,6 @@ app.post("/order_created_hook", async (req, res, next) => {
         "refresh_token": process.env.RD_REFLESH_TOKEN
       }
     });
-    //
-    lead_pending_order.forEach(async (item) => {
-      console.log(item)
-      let req = await axios({ method: 'POST', url: process.env.RD_LEAD_URL,
-        headers: {
-          "Authorization": "Bearer " + authentication.data.access_token,
-          "Content-Type": "application/json"
-        },
-        data: item
-      });
-    });
-    //
     created_lead.forEach(async (item) => {
       console.log(item)
       let req = await axios({ method: 'POST', url: process.env.RD_LEAD_URL,
