@@ -55,7 +55,7 @@ app.post("/order_created_hook", async (req, res, next) => {
           "traffic_medium": "",
           "traffic_campaign": "",
           "traffic_value": "",
-          "tags": ["nuvemshop", "pagamento-pendente", "rocklola"],
+          "tags": ["nuvemshop", "rocklola"],
           "available_for_mailing": true,
         }
       });
@@ -131,7 +131,7 @@ app.post("/order_paid_hook", async (req, res, next) => {
           "traffic_medium": "",
           "traffic_campaign": "",
           "traffic_value": "",
-          "tags": ["nuvemshop", "pagamento-finalizado", "rocklola"],
+          "tags": ["nuvemshop", "processo-concluído", "rocklola"],
           "available_for_mailing": true,
         }
       });
