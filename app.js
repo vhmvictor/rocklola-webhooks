@@ -100,6 +100,7 @@ app.post("/order_paid_hook", async (req, res, next) => {
     let order = [];
     order.push(await nuvemshop.getOrder(req.body.id));
     let created_lead = [];
+    let lead_paid_order = [];
     order.forEach((obj) => {
       created_lead.push({
         "event_type": "CONVERSION",
@@ -135,6 +136,15 @@ app.post("/order_paid_hook", async (req, res, next) => {
           "available_for_mailing": true,
         }
       });
+      lead_paid_order.push({
+        "event_type": "SALE",
+        "event_family":"CDP",
+        "payload": {
+          "email": obj.customer.email,
+          "funnel_name": "default",
+          "value": obj.total
+        }
+      });
     });
     let authentication = await axios({ method: 'POST', url: process.env.RD_AUTH_URL,
       header: {
@@ -150,6 +160,16 @@ app.post("/order_paid_hook", async (req, res, next) => {
     console.log(created_lead);
     //
     created_lead.forEach(async (item) => {
+        console.log(item)
+        let request = await axios({ method: 'POST', url: process.env.RD_LEAD_URL,
+          headers: {
+            "Authorization": "Bearer " + authentication.data.access_token,
+            "Content-Type": "application/json"
+          },
+          data: item
+        });
+      });
+      lead_paid_order.forEach(async (item) => {
         console.log(item)
         let request = await axios({ method: 'POST', url: process.env.RD_LEAD_URL,
           headers: {
