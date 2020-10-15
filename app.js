@@ -59,6 +59,8 @@ app.post("/order_created_hook", async (req, res, next) => {
           "available_for_mailing": true,
         }
       });
+      if(obj.payment_details.method == "credit_card") created_lead[0].payload.cf_order_payment_method = "Cartão de Crédito"
+      else if(obj.payment_details.method == "offline") created_lead[0].payload.cf_order_payment_method = "Boleto"
     });
     //
     console.log(created_lead);
